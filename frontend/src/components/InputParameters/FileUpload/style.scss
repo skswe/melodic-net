@@ -1,0 +1,65 @@
+@import '../../../variables';
+
+.upload-zone {
+  position: relative;
+  background-color: $secondary;
+  border-radius: 0.4rem;
+  height: 6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: $secondary-focus;
+    cursor: pointer;
+  }
+
+  // Hides the actual input element in the top left
+  input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    font-size: 0;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  span#input-text {
+    font-size: 1rem;
+    color: $secondary-content;
+    pointer-events: none;
+  }
+
+  &.drag-over {
+    background-color: $secondary-focus;
+    cursor: pointer;
+
+    span#input-text {
+      animation: bounce 750ms infinite;
+    }
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateY(0); /* Initial and final position */
+    }
+    50% {
+      transform: translateY(-10px); /* Bounce up */
+    }
+  }
+
+  span#error {
+    background-color: $error;
+    padding: 0.4rem;
+    border-radius: 0.4rem;
+    color: $error-content;
+  }
+
+  @media (max-width: 768px) {
+    height: 4rem;
+  }
+}

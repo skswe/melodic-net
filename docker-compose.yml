@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      args:
+        - MODEL_CONFIG_PATH=${MODEL_CONFIG_PATH}
+    ports:
+      - '5000:8080'
+    environment:
+      - FLASK_ENV=PRODUCTION
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '80:8080'

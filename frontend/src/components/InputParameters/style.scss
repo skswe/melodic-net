@@ -1,0 +1,119 @@
+@import '../../variables.scss';
+
+.input-parameters {
+  width: 32rem;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  div {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .MuiSlider-root {
+    .MuiSlider-track {
+      background-color: $primary;
+      border: none;
+    }
+
+    .MuiSlider-thumb {
+      height: 24px;
+      width: 24px;
+      background-color: $primary-focus;
+      border: 2px solid $primary;
+
+      &:focus,
+      &:hover,
+      &.Mui-active,
+      &.Mui-focusVisible {
+        box-shadow: inherit;
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+
+    .MuiSlider-rail {
+      color: $primary;
+    }
+
+    .MuiSlider-valueLabel {
+      line-height: 1.2;
+      background: unset;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 50% 50% 50% 0;
+      opacity: 0.8;
+      background-color: $primary;
+      transform-origin: bottom left;
+      transform: translate(50%, -100%) rotate(-45deg) scale(0);
+      .MuiSlider-valueLabelLabel {
+        color: $primary-content;
+      }
+      &:before {
+        display: none;
+      }
+      &.MuiSlider-valueLabelOpen {
+        transform: translate(50%, -100%) rotate(-45deg) scale(1);
+      }
+      & > * {
+        transform: rotate(45deg);
+      }
+    }
+
+    .MuiSlider-mark {
+      color: $base-content;
+      height: 4px;
+    }
+
+    .MuiSlider-markLabel {
+      color: $base-content;
+    }
+  }
+
+  .dropdown-inputs {
+    display: flex;
+    justify-content: space-evenly;
+    select,
+    input {
+      width: 12rem;
+
+      option {
+        background-color: $secondary;
+        color: $secondary-content;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 21rem;
+    
+    .MuiSlider-root {
+      width: 16rem;
+      margin-top: -12px;
+
+      .MuiSlider-thumb {
+        height: 14px;
+        width: 14px;
+      }
+      .MuiSlider-valueLabel {
+        width: 20px;
+        height: 20px;
+      }
+      .MuiSlider-markLabel {
+        font-size: 0.75rem;
+        line-height: 0;
+      }
+    }
+
+    .dropdown-inputs {
+      select,
+      input {
+        width: 10rem;
+      }
+    }
+  }
+}

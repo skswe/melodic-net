@@ -1,0 +1,52 @@
+@import '../../variables';
+
+.home-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: screen;
+
+  .sample-midis {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 5vh;
+    right: 4rem;
+
+    .sample-midi {
+      display: block;
+      width: 8rem;
+      height: 2rem;
+      margin: 0.25rem 0.25rem;
+    }
+
+    @media screen and (max-width: 1024px) {
+      position: unset;
+      margin-bottom: 6rem;
+      .draggables {
+        width: 21rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+    }
+  }
+
+  button#generate {
+    width: 16rem;
+    height: 3rem;
+    margin: 1rem 0;
+  }
+
+  @media screen and (max-width: 1024px) {
+    font-size: 0.8rem;
+    h3, label, input, select {
+      font-size: 0.8rem;
+    }
+  }
+}

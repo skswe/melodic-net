@@ -1,0 +1,62 @@
+@import 'variables';
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Titillium Web, sans-serif;
+}
+
+html {
+  color: $base-content;
+  background-image: url('/assets/abstract_2.png');
+  background-color: rgb(151, 62, 62);
+  background-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+h1 {
+  font-family: Agbalumo, sans-serif;
+}
+
+input,
+button,
+select,
+label {
+  font-size: 1rem;
+}
+
+input,
+button,
+select {
+  border-radius: 0.4rem;
+  text-align: center;
+}
+
+input,
+select {
+  background-color: $secondary;
+  color: $secondary-content;
+  border: 2px solid $secondary;
+
+  &:focus {
+    outline: 1px solid $secondary-focus;
+  }
+}
+
+button {
+  color: $primary-content;
+  background-color: $primary;
+  cursor: pointer;
+  border: none;
+  outline: none;
+
+  &:hover {
+    background-color: $primary-focus;
+  }
+}
+
+.error {
+  color: $error;
+}

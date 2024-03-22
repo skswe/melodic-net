@@ -1,0 +1,25 @@
+@import "../../../variables";
+
+.library-midi {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0.5rem 0;
+  width: 16rem;
+  height: 3rem;
+  border-radius: 0.4rem;
+  background-color: black;
+
+  .add-button, .download-button {
+    &:hover {
+      cursor: pointer;
+      opacity: 0.85;
+    }
+  }
+
+  .active-button {
+    // color: green;
+  }
+
+}
