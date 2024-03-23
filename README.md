@@ -12,7 +12,7 @@ melodies.
 This project was developed as part of the capstone design course for my
 undergraduate degree in computer engineering.
 
-[Launch the app](https://melodicnet.skswe.com){:target="_blank"}
+[Launch the app](https://melodicnet.skswe.com)
 
 The deployed is trained on a dataset of 500 hip-hop MIDI files. View the
 [backend](/backend) directory to train your own model.
