@@ -1,8 +1,10 @@
 """RNN Model for MelodicNet
 
-The network consists of a LSTM layer followed by 3 dense layers for pitch, duration and offset prediction. The 3 input features (pitch, duration, offset)
-are represented as floating point numbers. The network uses sparse categorical crossentropy for pitch prediction and mean squared error with positive pressure for 
-duration and offset prediction. During prediction, the model's duration and output predictions are rounded and scaled in order to generate a pleasant sounding MIDI sequence.
+The network consists of a  2 LSTM layers followed by 3 dense layers for pitch, duration and offset prediction. 
+The 3 input features (pitch, duration, offset) are represented as floating point numbers. The network uses 
+sparse categorical crossentropy for pitch prediction and mean squared error with positive pressure for 
+duration and offset prediction. During prediction, the model's duration and output predictions are rounded 
+and scaled in order to generate a pleasant sounding MIDI sequence.
 
 """
 
@@ -23,13 +25,6 @@ from ..globals import LONGEST_DURATION, LONGEST_OFFSET
 from ..utils.midi import MIDIUtils
 
 logger = logging.getLogger(__name__)
-
-
-def mse_with_positive_pressure(y_true: tf.Tensor, y_pred: tf.Tensor):
-    """Mean Squared Error with Positive Pressure. Penalizes negative predictions by adding a positive pressure term to the loss function."""
-    mse = (y_true - y_pred) ** 2
-    positive_pressure = 10 * tf.maximum(-y_pred, 0.0)
-    return tf.reduce_mean(mse + positive_pressure)
 
 
 class RNN(Model):
@@ -90,7 +85,6 @@ class RNN(Model):
         midi: Stream,
         output_length: int = 16,
         smallest_step: Optional[float] = 0.5,
-        duration_scale_factor: Optional[float] = 1.0,
         temperature=1.0,
         random_seed: Optional[int] = None,
         **model_predict_kwargs,
@@ -102,7 +96,6 @@ class RNN(Model):
             midi: The input MIDI to generate the sequence from.
             output_length: Number of bars to generate. Defaults to 32.
             smallest_step: The duration of the smallest step size the model should produce, measured in quarterLength. Defaults to 0.5 (1/8th notes).
-            duration_scale_factor: A factor to scale the duration of the model's output. Defaults to 1.0.
             temperature: Temperature of the model's note distribution. A higher temperature results in higher variance in the types of notes produced. Defaults to 2.0.
             random_seed: A seed to make the model's output deterministic. Defaults to None.
 
@@ -141,12 +134,8 @@ class RNN(Model):
                 offset = 0
             else:
                 offset = single_event["offset"].squeeze()
-                # offset = min(offset, smallest_step)
-                # offset = round(offset / smallest_step) * smallest_step * np.random.randint(1, 3)
 
             duration = single_event["duration"].squeeze()
-            # duration = max(single_event["duration"].squeeze(), smallest_step)
-            # duration = min(duration, 4)
 
             actual_event = np.array([[pitch, duration, offset]])
             tweaked_event = np.array([[

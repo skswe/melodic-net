@@ -1,3 +1,6 @@
+"""Global constants and parameters.
+"""
+
 import logging
 
 LOGGING_FORMATTER = logging.Formatter(

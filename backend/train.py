@@ -1,3 +1,12 @@
+"""This script trains a model using the MelodicNet class.
+
+Usage:
+
+    python3 train.py <identifier> [--log-level <log_level>] [--midi-path <midi_path>] 
+        [--refresh-encodings] [--refresh-cleaned-midis] [--n-midis <n_midis>] 
+        [--partition <partition>] [--epochs <epochs>]
+"""
+
 import argparse
 
 import matplotlib.pyplot as plt
@@ -6,11 +15,6 @@ import melodicnet as mn
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a model")
     parser.add_argument("identifier", type=str, help="Identifier for the model")
-    parser.add_argument(
-        "--config-path",
-        type=str,
-        default="configs",
-    )
     parser.add_argument(
         "--log-level",
         type=str,
@@ -53,7 +57,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     driver = mn.MelodicNet(
-        config_path=args.config_path,
         log_level=args.log_level,
     )
 
@@ -73,10 +76,8 @@ if __name__ == "__main__":
         )
     except KeyboardInterrupt:
         print("Training interrupted")
-        
 
     config_path_out = driver.generate_config_files(
-        root_path=args.config_path,
         identifier=args.identifier,
         prefix=args.partition,
     )
