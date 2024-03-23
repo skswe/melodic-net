@@ -1,45 +1,65 @@
 # MelodicNet Backend
 
-## Overview
-
-This is the backend for the MelodicNet project. It can be used to train a model
-from a custom dataset of MIDI files, and to generate new music from a trained
-model. The model can be used programatically via Python or exposed as a REST
-API.
+The backend for MelodicNet is built using Python and TensorFlow. Two scripts are
+provided: `train.py` and `predict.py`. The former is used to train the model,
+while the latter is used to generate melodies using a trained model.
 
 ## Installation
+
+1. Clone the repository:
+
+`git clone https://github.com/skswe/melodicnet.git`
+
+2. Install dependencies:
+
+`cd melodicnet/backend && pip install -r requirements.txt`
 
 ## Usage
 
 ### Training
 
 ```
-import melodicnet as mn
-
-melodicnet = mn.MelodicNet()
-
-melodicnet.load_data("path/to/midis/*.mid")
-melodicnet.create_model()
-melodicnet.train_model_weights()
-config_path = melodicnet.generate_config_files()
+python3 train.py <identifier> [--midi-path <midi_path>] [--n-midis <n_midis>]
+    [--epochs <epochs>] [--partition <partition>] [--refresh-encodings]
+    [--refresh-cleaned-midis] [--log-level <log_level>]
 ```
 
-### Generation
+- identifier: Identifier for the model.
+- --midi-path: (Optional) Path to the MIDI files (default:
+  "data/all_midi/\*.mid").
+- --n-midis: (Optional) Number of MIDIs to read and process from the source
+  directory (default: 100).
+- --epochs: (Optional) Number of epochs to train the model for (default: 130).
+- --partition: (Optional) Key type to filter the loaded MIDIs by (major or
+  minor).
+- --refresh-encodings: (Optional) Recompute encodings instead of using cached
+  versions.
+- --refresh-cleaned-midis: (Optional) Recompute cleaned MIDIs instead of using
+  cached versions.
+- --log-level: (Optional) Logging level (default: "INFO").
+
+The training script will print the location of the saved model files. Pass this
+path as the `<model_path>` argument of the prediction script.
+
+### Prediction
 
 ```
-import melodicnet as mn
-
-melodicnet = mn.MelodicNet(config_path="path/to/config/dir")
-input_midi = mn.MIDIUtils.midi_from_file("path/to/midi/file")
-
-melodicnet.load_mappings()
-melodicnet.create_model()
-melodicnet.load_model_weights()
-output_midi = melodicnet.predict(
-    input_midi,
-    output_length=16,
-    n_outputs=1,
-)
-
-mn.MIDIUtils.midi_to_file(output_midi, "path/to/output/midi/file")
+python3 predict.py <model_path> <midi_path> [--n-outputs <n_outputs>] [--output-length <output_length>]
+    [--temperature <temperature>] [--octave-range <low> <high>][--key-signature <key_signature>]
+    [--random-seed <random_seed>] [--partition <partition>] [--log-level <log_level>]
 ```
+
+- model_path: Path to the directory containing the trained model files.
+- midi_path: Path to the input MIDI file.
+- --n-outputs: (Optional) Number of output MIDIs to generate (default: 1).
+- --output-length: (Optional) Output MIDI length in bars (default: 32).
+- --temperature: (Optional) Controls the randomness of the output. Higher values
+  result in more random output (default: 0.9).
+- --octave-range: (Optional) Acceptable octave range for notes to be placed in
+  (default: (3, 7)).
+- --key-signature: (Optional) Desired key signature of the output melody.
+- --random-seed: (Optional) If provided, the output will be deterministic with
+  the seed.
+- --partition: (Optional) Key type to filter the loaded MIDIs by (major or
+  minor).
+- --log-level: (Optional) Logging level (default: "INFO").

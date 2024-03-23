@@ -295,7 +295,7 @@ class MelodicNet:
         self,
         midi: Union[str, Stream],
         output_length: int = 32,
-        temperature: float = 0.1,
+        temperature: float = 0.9,
         n_outputs: int = 1,
         octave_range: Tuple[int, int] = (3, 7),
         key_signature: Optional[str] = None,
@@ -334,7 +334,6 @@ class MelodicNet:
             )
 
             if key_signature is None:
-                # Use key signature of input midi
                 model_output = model_output.transpose(-input_midi.transpose_by).transpose(0)
             else:
                 transpose_by = (
@@ -345,11 +344,6 @@ class MelodicNet:
                 model_output = model_output.transpose(transpose_by).transpose(0)
 
             model_output = MIDIUtils.trim_midi_octave_range(model_output, *octave_range)
-
-            # Transpose octave range if the generated MIDI max octave differs from the input MIDI
-            # octave_diff = MIDIUtils.highest_octave(model_output) - MIDIUtils.highest_octave(input_midi)
-            # if octave_diff > 0:
-            #     model_output = model_output.transpose(-12)
 
             outputs.append(model_output)
 

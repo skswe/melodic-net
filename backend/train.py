@@ -1,3 +1,12 @@
+"""This script trains a model using the MelodicNet class.
+
+Usage:
+
+    python3 train.py <identifier> [--midi-path <midi_path>] [--n-midis <n_midis>] 
+        [--epochs <epochs>] [--partition <partition>] [--refresh-encodings] 
+        [--refresh-cleaned-midis] [--log-level <log_level>]
+"""
+
 import argparse
 
 import matplotlib.pyplot as plt
@@ -7,19 +16,27 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a model")
     parser.add_argument("identifier", type=str, help="Identifier for the model")
     parser.add_argument(
-        "--config-path",
-        type=str,
-        default="configs",
-    )
-    parser.add_argument(
-        "--log-level",
-        type=str,
-        default="INFO",
-    )
-    parser.add_argument(
         "--midi-path",
         type=str,
         default="data/all_midi/*.mid",
+    )
+    parser.add_argument(
+        "--n-midis",
+        type=int,
+        default=100,
+        help="Number of MIDIs to read and process from the source directory. Defaults to None.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=130,
+        help="Number of epochs to train the model for. Defaults to 130.",
+    )
+    parser.add_argument(
+        "--partition",
+        type=str,
+        default=None,
+        help="Key type to filter the loaded MIDIs by (`major` or `minor`). Defaults to None.",
     )
     parser.add_argument(
         "--refresh-encodings",
@@ -32,28 +49,14 @@ if __name__ == "__main__":
         help="If `True`, recomputes cleaned MIDIs instead of using cached versions. Defaults to False.",
     )
     parser.add_argument(
-        "--n-midis",
-        type=int,
-        default=100,
-        help="Number of MIDIs to read and process from the source directory. Defaults to None.",
-    )
-    parser.add_argument(
-        "--partition",
+        "--log-level",
         type=str,
-        default=None,
-        help="Key type to filter the loaded MIDIs by (`major` or `minor`). Defaults to None.",
-    )
-    parser.add_argument(
-        "--epochs",
-        type=int,
-        default=130,
-        help="Number of epochs to train the model for. Defaults to 130.",
+        default="INFO",
     )
 
     args = parser.parse_args()
 
     driver = mn.MelodicNet(
-        config_path=args.config_path,
         log_level=args.log_level,
     )
 
@@ -73,10 +76,8 @@ if __name__ == "__main__":
         )
     except KeyboardInterrupt:
         print("Training interrupted")
-        
 
     config_path_out = driver.generate_config_files(
-        root_path=args.config_path,
         identifier=args.identifier,
         prefix=args.partition,
     )

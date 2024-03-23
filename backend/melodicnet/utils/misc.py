@@ -1,4 +1,4 @@
-"""Miscellaneous utility functions""
+"""Miscellaneous utility functions
 """
 
 import datetime
@@ -14,19 +14,29 @@ def make_timestamped_dir(path):
     time_now = datetime.datetime.now()
     date_now = time_now.date().strftime("%Y-%m-%d")
     hour_now = time_now.strftime("%H")
-    minute_now = time_now.strftime("%M")
-    full_log_dir = os.path.join(path, date_now, hour_now, minute_now)
+    minute_second_now = time_now.strftime("%M_%S")
+    full_log_dir = os.path.join(path, date_now, hour_now, minute_second_now)
     os.makedirs(full_log_dir, exist_ok=True)
     return full_log_dir
 
 
 def unique_file_name(path):
     """Return a unique file name by appending _i to the path where i is the smallest integer such that the path does not exist"""
-    i = 2
-    while os.path.exists(path):
-        path = f"{path}_{i}"
+    if not os.path.exists(path):
+        return path
+    
+    dir = os.path.dirname(path)
+    fn = os.path.basename(path)
+    fn, ext = os.path.splitext(fn)
+    if len(fn) >= 2 and "_" in fn and fn.split("_", 1)[1].isdigit():
+        # filename is in filename_i format already
+        fn, i = fn.rsplit("_", 1)
+        i = int(i)
+    else:
+        i = 2
+    while os.path.exists(os.path.join(dir, f"{fn}_{i}") + ext):
         i += 1
-    return f"{path}.log"
+    return os.path.join(dir, f"{fn}_{i}") + ext
 
 
 def format_dict(dict_, ind="    ", trail="_"):

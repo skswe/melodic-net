@@ -44,7 +44,7 @@ Looks something like this:
 import logging
 from abc import abstractmethod
 from functools import partial
-from typing import List, Optional, Set, Tuple, Union
+from typing import List, Set, Tuple, Union
 
 import numpy as np
 from keras import utils
@@ -172,7 +172,7 @@ class Encoding:
         return encoded_midi
 
     def decode(self, encoded_midi: np.ndarray) -> Stream:
-        """Reconstruct MIDI given encoding. The duration of each note will be rounded to the nearest multiple of `round_duration` if it is not `None`"""
+        """Reconstruct MIDI given encoding."""
         midi_out = Stream()
         prev_offset = 0
         for event in encoded_midi:

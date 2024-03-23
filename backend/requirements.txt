@@ -7,4 +7,4 @@ numpy==1.24.1
 matplotlib==3.6.3
 keras==2.9.0
 music21==5.5.0
-gunicorn
+gunicorn==21.2.0
