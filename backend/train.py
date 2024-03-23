@@ -2,9 +2,9 @@
 
 Usage:
 
-    python3 train.py <identifier> [--log-level <log_level>] [--midi-path <midi_path>] 
-        [--refresh-encodings] [--refresh-cleaned-midis] [--n-midis <n_midis>] 
-        [--partition <partition>] [--epochs <epochs>]
+    python3 train.py <identifier> [--midi-path <midi_path>] [--n-midis <n_midis>] 
+        [--epochs <epochs>] [--partition <partition>] [--refresh-encodings] 
+        [--refresh-cleaned-midis] [--log-level <log_level>]
 """
 
 import argparse
@@ -16,14 +16,27 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train a model")
     parser.add_argument("identifier", type=str, help="Identifier for the model")
     parser.add_argument(
-        "--log-level",
-        type=str,
-        default="INFO",
-    )
-    parser.add_argument(
         "--midi-path",
         type=str,
         default="data/all_midi/*.mid",
+    )
+    parser.add_argument(
+        "--n-midis",
+        type=int,
+        default=100,
+        help="Number of MIDIs to read and process from the source directory. Defaults to None.",
+    )
+    parser.add_argument(
+        "--epochs",
+        type=int,
+        default=130,
+        help="Number of epochs to train the model for. Defaults to 130.",
+    )
+    parser.add_argument(
+        "--partition",
+        type=str,
+        default=None,
+        help="Key type to filter the loaded MIDIs by (`major` or `minor`). Defaults to None.",
     )
     parser.add_argument(
         "--refresh-encodings",
@@ -36,22 +49,9 @@ if __name__ == "__main__":
         help="If `True`, recomputes cleaned MIDIs instead of using cached versions. Defaults to False.",
     )
     parser.add_argument(
-        "--n-midis",
-        type=int,
-        default=100,
-        help="Number of MIDIs to read and process from the source directory. Defaults to None.",
-    )
-    parser.add_argument(
-        "--partition",
+        "--log-level",
         type=str,
-        default=None,
-        help="Key type to filter the loaded MIDIs by (`major` or `minor`). Defaults to None.",
-    )
-    parser.add_argument(
-        "--epochs",
-        type=int,
-        default=130,
-        help="Number of epochs to train the model for. Defaults to 130.",
+        default="INFO",
     )
 
     args = parser.parse_args()
