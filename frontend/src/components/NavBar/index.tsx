@@ -9,6 +9,7 @@ const NavBar = () => {
       </NavLink>
       <NavLink to='/about'>About</NavLink>
       <NavLink to='/demos'>Demos</NavLink>
+      <a href="https://github.com/skswe/melodic-net.git" target='_blank'>GitHub</a>
     </div>
   );
 };
