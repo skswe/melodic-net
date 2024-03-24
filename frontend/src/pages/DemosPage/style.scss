@@ -8,6 +8,8 @@
   background-position: center;
   mix-blend-mode: screen;
   align-items: center;
+  justify-content: center;
+  height: calc(100% - 5rem - 6rem);
 
   svg {
     font-size: 2rem;
@@ -28,11 +30,29 @@
   }
 
   .overview {
-    padding: 1rem;
-    text-align: center;
+    padding: 1rem 0;
+    text-align: justify;
     position: relative;
     width: 48rem;
     color: white;
+
+    ol {
+      margin: auto;
+      margin-top: 1rem;
+      width: 20rem;
+    }
+
+    .part {
+      cursor: pointer;
+
+      &.active {
+        color: $primary;
+      }
+      &.hover,
+      &:hover {
+        color: $secondary-focus;
+      }
+    }
 
     &::before {
       content: '';
@@ -43,12 +63,12 @@
       height: 100%;
       background-image: radial-gradient(
         circle,
-        $secondary-focus 1px,
+        $primary-focus 1px,
         transparent 1px
       );
-      background-size: 40px 40px;
+      background-size: 80px 40px;
       pointer-events: none;
-      opacity: 0.3;
+      opacity: 0.4;
 
       animation: move 2s linear infinite;
 
@@ -57,18 +77,17 @@
           background-position: 0 0;
         }
         to {
-          background-position: 40px 0px;
+          background-position: 0px 40px;
         }
       }
     }
   }
 
   .now-playing {
-    background: $accent;
     border-radius: 0.5rem;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
     width: 48rem;
 
     .song {
@@ -79,27 +98,15 @@
       margin: 1rem;
 
       img {
-        width: 8rem;
+        width: 18rem;
         border-radius: 50%;
+        padding-bottom: 1rem;
       }
     }
 
     .description {
       text-align: left;
       margin: auto;
-
-      .part {
-        margin: 0.75rem 0;
-        cursor: pointer;
-
-        &.active {
-          color: $primary;
-        }
-        &.hover,
-        &:hover {
-          color: $secondary-focus;
-        }
-      }
     }
   }
 
@@ -108,12 +115,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    margin-top: 2.5rem;
     width: 64rem;
-    padding-top: 1rem;
-    background-color: black;
+    height: 6rem;
     position: fixed;
     bottom: 0;
+    background-color: black;
+    padding-top: 2rem;
 
     .player-controls {
       display: flex;
@@ -195,13 +202,11 @@
     justify-content: space-between;
     align-items: baseline;
     width: 48rem;
-    height: 12rem;
     padding: 1rem 0;
 
     .song-card {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
       align-items: center;
       width: 14rem;
       height: 5rem;
@@ -212,20 +217,20 @@
       &.active {
         background-color: $secondary-focus;
       }
-      
+
       &:hover {
         background-color: $secondary-focus;
       }
-
 
       img {
         width: 4rem;
         height: 4rem;
         border-radius: 50%;
+        margin-left: 1rem;
       }
 
       h3 {
-        margin: 0 2rem;
+        margin-left: 2rem;
       }
     }
   }
@@ -236,10 +241,6 @@
       .player-controls {
         width: 75%;
       }
-    }
-
-    .library-container {
-      width: 16rem;
     }
   }
 
@@ -277,7 +278,6 @@
 
     .songs-container {
       width: 21rem;
-      height: 24rem;
 
       .song-card {
         width: 6rem;
@@ -286,10 +286,11 @@
         img {
           width: 2rem;
           height: 2rem;
+          margin-left: 0.5rem;
         }
 
         h3 {
-          margin: 0 0.5rem;
+          margin-left: 0.5rem;
           font-size: x-small;
         }
       }

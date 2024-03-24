@@ -127,7 +127,7 @@ const HomePage: React.FC = () => {
       {error && <h2 className='error'>{error}</h2>}
       <PreviewZone inputMidi={inpMidi} generatedMidis={genMidis} />
       <div className='sample-midis'>
-        <h3>Sample MIDIs</h3>
+        <h3>Sample input MIDIs</h3>
         <p>(Click to select)</p>
         <div className='draggables'>
           {sampleMidis.map(

@@ -45,7 +45,6 @@ const MIDIPlayer: React.FC<MIDIPlayerProps> = ({
 
   useEffect(() => {
     // Create player
-    if (playerRef?.current?.children?.length) return;
     // @ts-expect-error doesnt support TS
     const _player = JZZ.gui.Player(playerRef.current);
 
@@ -110,6 +109,9 @@ const MIDIPlayer: React.FC<MIDIPlayerProps> = ({
     setPlayer(_player);
 
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      playerRef.current?.removeChild(playerRef.current.children[0]);
+      _player.stop();
       _player.disconnect();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

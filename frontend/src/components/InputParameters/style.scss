@@ -5,6 +5,11 @@
   display: flex;
   flex-direction: column;
   text-align: center;
+  position: relative;
+
+  h3 {
+    pointer-events: none;
+  }
 
   div {
     margin-top: 4px;

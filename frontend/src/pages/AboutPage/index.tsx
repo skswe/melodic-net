@@ -6,12 +6,15 @@ const AboutPage = () => {
       <h1>What is MelodicNet?</h1>
       <div className='container'>
         <p>
-          MelodicNet is an AI model that generates new melodies in the style of
-          a given MIDI file. It is built using a deep learning model called a
-          Long Short-Term Memory (LSTM) network. To try it out, upload a MIDI
-          file and click "Generate New MIDI". You can listen to the generated
-          MIDI files using the built-in MIDI player, or download them to your
-          computer.
+          <strong>MelodicNet</strong> is a generative AI application tailored to
+          aid music producers in melody creation. By inputting an "inspiration"
+          MIDI file, the app generates new MIDI files that echo elements of the
+          original composition. While the current output may require further
+          editing before integration into a final composition,{' '}
+          <strong>MelodicNet</strong> serves as a tool for sparking creativity
+          and exploration. Rather than providing fully structured melodies, it
+          excels in generating unique melodic phrases, offering users a starting
+          point for musical experimentation and development.
         </p>
       </div>
     </div>

@@ -119,19 +119,10 @@ const DemosPage: React.FC = () => {
       </div>
       <div className='overview'>
         <p>
-          The following songs are demos of the MelodicNet model. Each song
-          contains 4 parts. 1) The original MIDI file, 2) MelodicNet's output,
-          3) MelodicNet's output manually tweaked, and 4) The final musical
-          piece. These demos showcase MelodicNet's usecase for helping musicians
-          compose new melodies.
+          The following demo songs showcase <strong>MelodicNet's</strong>{' '}
+          ability to inspire new melodies. Each demo song contains 4 parts:
         </p>
-      </div>
-      <div className='now-playing'>
-        <div className='song'>
-          <img src={currentSong.cover} alt={currentSong.name}></img>
-          <h2>{currentSong.name}</h2>
-        </div>
-        <div className='description'>
+        <ol>
           {currentSong.parts.map((part, i) => (
             <p
               key={part.label}
@@ -142,10 +133,10 @@ const DemosPage: React.FC = () => {
               }
               onClick={() => handlePartClick(part)}
             >
-              {i + 1}) {part.label}
+              {i + 1} {part.label}
             </p>
           ))}
-        </div>
+        </ol>
       </div>
       <div className='songs-container'>
         {songs.map((song) => (
@@ -158,6 +149,13 @@ const DemosPage: React.FC = () => {
             <h3>{song.name}</h3>
           </div>
         ))}
+      </div>
+      <div className='now-playing'>
+        <h3>Now Playing</h3>
+        <div className='song'>
+          <img src={currentSong.cover} alt={currentSong.name}></img>
+          <h3>{currentSong.name}</h3>
+        </div>
       </div>
       <div className='audio-player'>
         <div className='time-container'>
