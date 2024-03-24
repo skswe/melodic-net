@@ -1,13 +1,13 @@
 # MelodicNet
 
-MelodicNet is a generative AI application designed to assist with melody
-creation for music producers. The app accepts an "inspiration" MIDI file as
-input and then outputs a set of new MIDI files which have some resemblence to
-the input file. Currently, the output quality is not good enough for producers
-to plug it directly into a composition, however it can be used as a starting
-point for further editing and inspiration. MelodicNet can be seen as a tool to
-generate pockets of unique melodic phrases rather than complete structured
-melodies.
+MelodicNet is a generative AI application tailored to aid music producers in
+melody creation. By inputting an "inspiration" MIDI file, the app generates new
+MIDI files that echo elements of the original composition. While the current
+output may require further editing before integration into a final composition,
+MelodicNet serves as a tool for sparking creativity and exploration. Rather than
+providing fully structured melodies, it excels in generating unique melodic
+phrases, offering users a starting point for musical experimentation and
+development.
 
 This project was developed as part of the capstone design course for my
 undergraduate degree in computer engineering.

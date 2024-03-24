@@ -3,10 +3,11 @@
 .about-page {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   color: white;
   mix-blend-mode: screen;
+  height: calc(100% - 5rem);
 
   h1 {
     font-family: Titillium Web, sans-serif;
@@ -15,10 +16,11 @@
   .container {
     margin: 1rem 0;
     padding: 1rem;
-    text-align: center;
+    text-align: justify;
     position: relative;
     width: 32rem;
     color: white;
+    background-color: black;
 
     &::before {
       content: '';
@@ -29,12 +31,12 @@
       height: 100%;
       background-image: radial-gradient(
         circle,
-        $secondary-focus 1px,
+        $primary-focus 1px,
         transparent 1px
       );
-      background-size: 40px 40px;
+      background-size: 80px 40px;
       pointer-events: none;
-      opacity: 0.3;
+      opacity: 0.4;
 
       animation: move 2s linear infinite;
 
@@ -43,7 +45,7 @@
           background-position: 0 0;
         }
         to {
-          background-position: 40px 0px;
+          background-position: 0px 40px;
         }
       }
     }
