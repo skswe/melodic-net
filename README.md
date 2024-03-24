@@ -14,5 +14,5 @@ undergraduate degree in computer engineering.
 
 [Launch the app](https://melodicnet.skswe.com)
 
-The deployed is trained on a dataset of 500 hip-hop MIDI files. View the
+The deployed model is trained on a dataset of 500 hip-hop MIDI files. View the
 [backend](/backend) directory to train your own model.
