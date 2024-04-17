@@ -2,11 +2,11 @@ import React, { FormEvent, useEffect, useState } from 'react';
 
 import axios from 'axios';
 import InputParameters from '../../components/InputParameters';
-import { GenMidi } from '../../types';
-import { extractFilesFromZip } from '../../utils/server';
-
-import SampleMIDI from '../../components/InputParameters/SampleMIDI';
+import Upload from '../../components/InputParameters/FileUpload';
+import SampleMIDIComponent from '../../components/InputParameters/SampleMIDI';
 import PreviewZone from '../../components/PreviewZone';
+import { MidiObj, SampleMIDI } from '../../types';
+import { extractFilesFromZip } from '../../utils/server';
 import { FetchSampleMidis } from './data';
 import './style.scss';
 
@@ -18,21 +18,13 @@ const HomePage: React.FC = () => {
   const [outputLength, setOutputLength] = useState<number>(16);
   const [temperature, setTemperature] = useState<number>(0.9);
   const [seed, setSeed] = useState<string>('');
-  const [inpMidi, setInpMidi] = useState<File | undefined>(undefined);
+  const [inpMidi, setInpMidi] = useState<MidiObj | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
-  const [genMidis, setGenMidis] = useState<GenMidi[]>([]);
-  const [sampleMidis, setSampleMidis] = useState<
-    (
-      | {
-          name: string;
-          url: string;
-          seed: string;
-          temperature: number;
-        }
-      | undefined
-    )[]
-  >([]);
+  const [genMidis, setGenMidis] = useState<MidiObj[]>([]);
+  const [sampleMidis, setSampleMidis] = useState<(SampleMIDI | undefined)[]>(
+    []
+  );
 
   const handleGenerate = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -47,7 +39,7 @@ const HomePage: React.FC = () => {
     formData.append('temperature', String(temperature));
     formData.append('seed', seed);
     if (inpMidi) {
-      formData.append('file', inpMidi);
+      formData.append('file', inpMidi.midiFile);
     }
 
     setLoading(true);
@@ -60,7 +52,7 @@ const HomePage: React.FC = () => {
 
       const fileList = await extractFilesFromZip(res);
 
-      const _genMidis: GenMidi[] = [];
+      const _genMidis: MidiObj[] = [];
 
       for (let i = 0; i < fileList.length; i += 2) {
         const jpgFile = fileList[i];
@@ -99,7 +91,6 @@ const HomePage: React.FC = () => {
         outputLength={outputLength}
         temperature={temperature}
         seed={seed}
-        inpMidi={inpMidi}
         handleNOutputsChange={(_, value) => setNOutputs(value as number)}
         handleOctaveRangeChange={(_, value) =>
           setOctaveRange(value as [number, number])
@@ -115,9 +106,13 @@ const HomePage: React.FC = () => {
           if (isNaN(Number(newSeed)) || Number(newSeed) < 1) newSeed = '';
           setSeed(newSeed.toString());
         }}
-        handleInpMidiChange={(file) => setInpMidi(file)}
+        handleInpMidiChange={(midiObj) => setInpMidi(midiObj)}
       />
-
+      <Upload
+        setFile={(file) =>
+          setInpMidi(Object({ midiFile: file, imageFile: undefined }))
+        }
+      />
       {inpMidi && (
         <button id='generate' onClick={handleGenerate}>
           Generate New MIDI{nOutputs > 1 && 's'}
@@ -133,21 +128,12 @@ const HomePage: React.FC = () => {
           {sampleMidis.map(
             (sampleMidi, i) =>
               sampleMidi && (
-                <SampleMIDI
+                <SampleMIDIComponent
                   key={i}
-                  name={sampleMidi.name}
-                  handleClick={() => {
-                    fetch(sampleMidi.url)
-                      .then((res) => res.blob())
-                      .then((blob) => {
-                        const file = new File([blob], sampleMidi.name, {
-                          type: 'audio/midi',
-                        });
-                        setInpMidi(file);
-                        setSeed(sampleMidi.seed);
-                        setTemperature(sampleMidi.temperature);
-                      });
-                  }}
+                  sampleMidi={sampleMidi}
+                  setInpMidi={setInpMidi}
+                  setSeed={setSeed}
+                  setTemperature={setTemperature}
                 />
               )
           )}

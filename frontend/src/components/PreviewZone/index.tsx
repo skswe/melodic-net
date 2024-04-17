@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import 'react-multi-carousel/lib/styles.css';
-import { GenMidi } from '../../types';
+import { MidiObj } from '../../types';
 import { promptDownload, zipFiles } from '../../utils/server';
 import LibraryMIDI from './LibraryMIDI';
 import MIDIImage from './MIDIImage';
@@ -8,8 +8,8 @@ import MIDIPlayer from './MIDIPlayer';
 import './style.scss';
 
 type PreviewZoneProps = {
-  inputMidi?: File;
-  generatedMidis: GenMidi[];
+  inputMidi?: MidiObj;
+  generatedMidis: MidiObj[];
 };
 
 const PreviewZone: React.FC<PreviewZoneProps> = ({
@@ -17,8 +17,8 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
   generatedMidis,
 }) => {
   const [sound, setSound] = useState<number>(53);
-  const [selectedMidi, setSelectedMidi] = useState<GenMidi | undefined>(
-    Object({ midiFile: inputMidi, imageFile: undefined })
+  const [selectedMidi, setSelectedMidi] = useState<MidiObj | undefined>(
+    inputMidi
   );
   const [playerPosition, setPlayerPosition] = useState<number>(0);
 
@@ -46,7 +46,7 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
   }, [generatedMidis]);
 
   useEffect(() => {
-    setSelectedMidi(Object({ midiFile: inputMidi, imageFile: undefined }));
+    if (inputMidi) setSelectedMidi(inputMidi);
   }, [inputMidi]);
 
   return (
@@ -77,12 +77,8 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
         {inputMidi && (
           <LibraryMIDI
             name='Input MIDI'
-            selected={inputMidi === selectedMidi?.midiFile}
-            handleSelectMidi={() =>
-              setSelectedMidi(
-                Object({ midiFile: inputMidi, imageFile: undefined })
-              )
-            }
+            selected={inputMidi === selectedMidi}
+            handleClick={() => setSelectedMidi(inputMidi)}
           />
         )}
         {generatedMidis.map((genMidi, i) => (
@@ -91,7 +87,7 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
             name={genMidi.midiFile.name}
             url={URL.createObjectURL(genMidi.midiFile)}
             selected={selectedMidi === generatedMidis[i]}
-            handleSelectMidi={() => setSelectedMidi(generatedMidis[i])}
+            handleClick={() => setSelectedMidi(generatedMidis[i])}
           />
         ))}
       </div>
