@@ -84,6 +84,11 @@ def load_midi_file(midi_file):
     return input_midi
 
 
+@app.route("/ping", methods=["GET"])
+def handle_ping():
+    return "", 204
+
+
 @app.route("/predict", methods=["POST"])
 def handle_predict():
     app.logger.info(f"recieved request of type {request.content_type} / size {request.content_length}")
