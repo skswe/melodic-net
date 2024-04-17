@@ -2,10 +2,10 @@ import React, { FormEvent, useEffect, useState } from 'react';
 
 import axios from 'axios';
 import InputParameters from '../../components/InputParameters';
-import { GenMidi } from '../../types';
+import SampleMIDIComponent from '../../components/InputParameters/SampleMIDI';
+import { GenMidi, SampleMIDI } from '../../types';
 import { extractFilesFromZip } from '../../utils/server';
 
-import SampleMIDI from '../../components/InputParameters/SampleMIDI';
 import PreviewZone from '../../components/PreviewZone';
 import { FetchSampleMidis } from './data';
 import './style.scss';
@@ -19,20 +19,13 @@ const HomePage: React.FC = () => {
   const [temperature, setTemperature] = useState<number>(0.9);
   const [seed, setSeed] = useState<string>('');
   const [inpMidi, setInpMidi] = useState<File | undefined>(undefined);
+  const [inpImage, setInpImage] = useState<File | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const [genMidis, setGenMidis] = useState<GenMidi[]>([]);
-  const [sampleMidis, setSampleMidis] = useState<
-    (
-      | {
-          name: string;
-          url: string;
-          seed: string;
-          temperature: number;
-        }
-      | undefined
-    )[]
-  >([]);
+  const [sampleMidis, setSampleMidis] = useState<(SampleMIDI | undefined)[]>(
+    []
+  );
 
   const handleGenerate = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -125,7 +118,7 @@ const HomePage: React.FC = () => {
       )}
       {loading && <h3>Generating new MIDI{nOutputs > 1 && 's'}...</h3>}
       {error && <h2 className='error'>{error}</h2>}
-      <PreviewZone inputMidi={inpMidi} generatedMidis={genMidis} />
+      <PreviewZone inputMidi={inpMidi} inputImage={inpImage} generatedMidis={genMidis} />
       <div className='sample-midis'>
         <h3>Sample input MIDIs</h3>
         <p>(Click to select)</p>
@@ -133,21 +126,13 @@ const HomePage: React.FC = () => {
           {sampleMidis.map(
             (sampleMidi, i) =>
               sampleMidi && (
-                <SampleMIDI
+                <SampleMIDIComponent
                   key={i}
-                  name={sampleMidi.name}
-                  handleClick={() => {
-                    fetch(sampleMidi.url)
-                      .then((res) => res.blob())
-                      .then((blob) => {
-                        const file = new File([blob], sampleMidi.name, {
-                          type: 'audio/midi',
-                        });
-                        setInpMidi(file);
-                        setSeed(sampleMidi.seed);
-                        setTemperature(sampleMidi.temperature);
-                      });
-                  }}
+                  sampleMidi={sampleMidi}
+                  setInpMidi={setInpMidi}
+                  setInpImage={setInpImage}
+                  setSeed={setSeed}
+                  setTemperature={setTemperature}
                 />
               )
           )}

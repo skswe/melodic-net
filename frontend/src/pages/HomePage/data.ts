@@ -32,12 +32,18 @@ export const FetchSampleMidis = async () => {
       const { default: midiPath } = await import(
         `../../../assets/midis/${i}.mid`
       );
-      const file = await fetch(midiPath);
-      const blob = await file.blob();
+      const { default: imagePath } = await import(
+        `../../../assets/midis/${i}.jpg`
+      );
+      const midiFile = await fetch(midiPath);
+      const imageFile = await fetch(imagePath);
+      const blob = await midiFile.blob();
+      const imageBlob = await imageFile.blob();
       const { seed, temperature } = metadata[i - 1];
       return {
         name: `${i}.mid`,
         url: URL.createObjectURL(blob),
+        imageUrl: URL.createObjectURL(imageBlob),
         seed,
         temperature,
       };

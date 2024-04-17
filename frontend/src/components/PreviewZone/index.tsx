@@ -9,16 +9,18 @@ import './style.scss';
 
 type PreviewZoneProps = {
   inputMidi?: File;
+  inputImage?: File;
   generatedMidis: GenMidi[];
 };
 
 const PreviewZone: React.FC<PreviewZoneProps> = ({
   inputMidi,
+  inputImage,
   generatedMidis,
 }) => {
   const [sound, setSound] = useState<number>(53);
   const [selectedMidi, setSelectedMidi] = useState<GenMidi | undefined>(
-    Object({ midiFile: inputMidi, imageFile: undefined })
+    Object({ midiFile: inputMidi, imageFile: inputImage })
   );
   const [playerPosition, setPlayerPosition] = useState<number>(0);
 
@@ -46,8 +48,8 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
   }, [generatedMidis]);
 
   useEffect(() => {
-    setSelectedMidi(Object({ midiFile: inputMidi, imageFile: undefined }));
-  }, [inputMidi]);
+    setSelectedMidi(Object({ midiFile: inputMidi, imageFile: inputImage }));
+  }, [inputMidi, inputImage]);
 
   return (
     <div className='preview-zone'>
@@ -80,7 +82,7 @@ const PreviewZone: React.FC<PreviewZoneProps> = ({
             selected={inputMidi === selectedMidi?.midiFile}
             handleSelectMidi={() =>
               setSelectedMidi(
-                Object({ midiFile: inputMidi, imageFile: undefined })
+                Object({ midiFile: inputMidi, imageFile: inputImage })
               )
             }
           />
