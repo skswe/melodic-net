@@ -26,6 +26,11 @@ const App: React.FC = () => {
       });
     }, 500);
 
+    (async function pingBackend() {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/ping`);
+      if (res.status === 204) console.log('Backend is up and running');
+    })();
+
     return () => clearInterval(intervalId);
   }, []);
 
