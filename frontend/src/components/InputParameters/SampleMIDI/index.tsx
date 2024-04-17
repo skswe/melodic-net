@@ -1,9 +1,8 @@
-import { SampleMIDI } from '../../../types';
+import { MidiObj, SampleMIDI } from '../../../types';
 
 type SampleMIDIProps = {
   sampleMidi: SampleMIDI;
-  setInpMidi: (file: File) => void;
-  setInpImage: (file: File) => void;
+  setInpMidi: (inpMidi: MidiObj) => void;
   setSeed: (seed: string) => void;
   setTemperature: (temperature: number) => void;
 };
@@ -11,7 +10,6 @@ type SampleMIDIProps = {
 const SampleMIDIComponent: React.FC<SampleMIDIProps> = ({
   sampleMidi,
   setInpMidi,
-  setInpImage,
   setSeed,
   setTemperature,
 }) => {
@@ -26,8 +24,7 @@ const SampleMIDIComponent: React.FC<SampleMIDIProps> = ({
     const imageFile = new File([imageBlob], `${sampleMidi.name}.jpg`, {
       type: 'image/jpeg',
     });
-    setInpMidi(file);
-    setInpImage(imageFile);
+    setInpMidi({ midiFile: file, imageFile });
     setSeed(sampleMidi.seed);
     setTemperature(sampleMidi.temperature);
   };

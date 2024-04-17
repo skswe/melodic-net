@@ -10,15 +10,20 @@ type LibraryMIDIProps = {
   name: string;
   url?: string;
   selected: boolean;
-  handleSelectMidi: () => void;
+  handleClick: () => void;
 };
 
-const LibraryMIDI: React.FC<LibraryMIDIProps> = ({ name, url, selected, handleSelectMidi }) => {
+const LibraryMIDI: React.FC<LibraryMIDIProps> = ({
+  name,
+  url,
+  selected,
+  handleClick,
+}) => {
   return (
     <div className='library-midi'>
       <label>{name}</label>
       {!selected ? (
-        <AddCircleOutlineIcon className='add-button' onClick={handleSelectMidi} />
+        <AddCircleOutlineIcon className='add-button' onClick={handleClick} />
       ) : (
         <CheckCircleIcon className='active-button' />
       )}

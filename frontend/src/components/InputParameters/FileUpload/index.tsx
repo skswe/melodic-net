@@ -2,11 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import './style.scss';
 
 type UploadProps = {
-  file: File | undefined;
   setFile: (file: File | undefined) => void;
 };
 
-const Upload: React.FC<UploadProps> = ({ file, setFile }) => {
+const Upload: React.FC<UploadProps> = ({ setFile }) => {
+  const [currentFile, setCurrentFile] = useState<File | undefined>(undefined);
   const [error, setError] = useState<string>('');
   const [drag, setDrag] = useState<boolean>(false);
 
@@ -27,6 +27,7 @@ const Upload: React.FC<UploadProps> = ({ file, setFile }) => {
 
     setError('');
     setFile(files[0]);
+    setCurrentFile(files[0]);
   };
 
   return (
@@ -43,9 +44,9 @@ const Upload: React.FC<UploadProps> = ({ file, setFile }) => {
         accept='audio/midi, audio/x-midi, audio/mid'
       />
       <span id='input-text'>
-        {file ? file.name : 'Upload Inspiration MIDI'}
+        {currentFile ? currentFile.name : 'Upload Inspiration MIDI'}
       </span>
-      {file && <span id='input-text'>(click to change)</span>}
+      {currentFile && <span id='input-text'>(click to change)</span>}
       {error && <span id='error'>{error}</span>}
     </div>
   );

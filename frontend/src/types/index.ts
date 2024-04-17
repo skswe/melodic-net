@@ -1,4 +1,4 @@
-export type GenMidi = {
+export type MidiObj = {
   midiFile: File;
   imageFile: File;
 };

@@ -1,7 +1,7 @@
 import Slider from '@mui/material/Slider';
 import Tooltip from '@mui/material/Tooltip';
 import React, { ChangeEvent } from 'react';
-import Upload from './FileUpload';
+import { MidiObj } from '../../types';
 import './style.scss';
 
 type InputParametersProps = {
@@ -12,7 +12,6 @@ type InputParametersProps = {
   outputLength: number;
   temperature: number;
   seed: string;
-  inpMidi: File | undefined;
   handleNOutputsChange: (event: Event, value: number | number[]) => void;
   handleOctaveRangeChange: (event: Event, value: number | number[]) => void;
   handleKeySignatureChange: (event: ChangeEvent<HTMLSelectElement>) => void;
@@ -20,7 +19,7 @@ type InputParametersProps = {
   handleOutputLengthChange: (event: Event, value: number | number[]) => void;
   handleTemperatureChange: (event: Event, value: number | number[]) => void;
   handleSeedChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleInpMidiChange: (file: File | undefined) => void;
+  handleInpMidiChange: (midi: MidiObj | undefined) => void;
 };
 
 const makeSliderMarks = (min: number, max: number, step: number = 1) => {
@@ -41,7 +40,6 @@ const InputParameters: React.FC<InputParametersProps> = ({
   outputLength,
   temperature,
   seed,
-  inpMidi,
   handleNOutputsChange,
   // handleOctaveRangeChange,
   handleKeySignatureChange,
@@ -49,7 +47,6 @@ const InputParameters: React.FC<InputParametersProps> = ({
   handleOutputLengthChange,
   handleTemperatureChange,
   handleSeedChange,
-  handleInpMidiChange,
 }) => {
   return (
     <div className='input-parameters'>
@@ -167,7 +164,6 @@ const InputParameters: React.FC<InputParametersProps> = ({
           </div>
         </Tooltip>
       </div>
-      <Upload file={inpMidi} setFile={handleInpMidiChange} />
     </div>
   );
 };
